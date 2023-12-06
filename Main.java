@@ -37,6 +37,7 @@ public class Main {
         discovered[v] = true;
         distances[v] = 0;
         q.offer(v);
+        System.out.println("You are done!);
         while (!q.isEmpty()) {
             v = q.poll();
             System.out.print(v + " ");
