@@ -1,4 +1,6 @@
-Kurmanjan Datka,Aruuke,2023,30,Asel,Beko,Aruuke,Cholpon
-With love Rose,Cholpon,2050,30,Aigul,Aichurok,Aruuzhan
-
-
+Kurmanjan Datka;Aruuke;2023;03:30;Asel,Beko,Aruuke,Cholpon
+With love Rose;Cholpon;2050;02:30;Aigul,Aichurok,Aruuzhan
+Matrix;John;2000;01:20;Aigul,Aichurok,Aruuzhan
+Univer;Martin;2012;00:40;Aigul,Aichurok,Aruuzhan
+Actress;Julia;2009;00:47;Aigul,Aichurok,Aruuzhan
+With love Rose 2;Cholpon;2050;00:30;Aigul,Aichurok,Aruuzhan
