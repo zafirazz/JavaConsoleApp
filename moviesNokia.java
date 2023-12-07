@@ -23,10 +23,10 @@ class Movie {
     String title;
     String director;
     int releaseYear;
-    int length; // in minutes
+    String length; // in minutes
     List<String> actors;
 
-    public Movie(String title, String director, int releaseYear, int length, List<String> actors) {
+    public Movie(String title, String director, int releaseYear, String length, List<String> actors) {
         this.title = title;
         this.director = director;
         this.releaseYear = releaseYear;
@@ -47,49 +47,36 @@ class FileModifier {
     }
 }
 
-class DatabaseManager {
-    public static void listMovies(Path filePath){
-        FileReader fread = null;
-        BufferedReader reader = null;
-        
-        try {
-            fread = new FileReader(filePath.toFile());
-            reader = new BufferedReader(fread);
+class ProcessingInputToObjects {
+    public static List<Movie> listMovies(Path filePath) {
+        List<Movie> movies = new ArrayList<>();
 
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath.toFile()))) {
             String line;
-            List<Movie> movies = new ArrayList<>(); 
 
-            try{
-                while ((line = reader.readLine()) != null) {
-                String[] columns = line.split(",");
+            while ((line = reader.readLine()) != null) {
+                String[] columns = line.split(";");
                     String title = columns[0];
                     String director = columns[1];
-                    System.out.println(director);
                     int releaseYear = Integer.parseInt(columns[2]);
-                    int length = Integer.parseInt(columns[3]);
+                    String length = columns[3];
                     String[] actorNames = columns[4].split(",");
                     Movie movie = new Movie(title, director, releaseYear, length, List.of(actorNames));
                     movies.add(movie);
-                } 
+            }
 
-                for (Movie movie : movies){
-                    System.out.println(movie.title + "; ");
-                    System.out.println(movie.releaseYear + "; ");
-                    System.out.println(movie.director + "; ");
-                }
-            
-            }catch (IOException e){
-                System.err.println("Something is wrong! ");
-            }      
-            
-            
         } catch (FileNotFoundException e) {
             System.err.println("File cannot be opened! ");
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
+            System.err.println("Something is wrong! " + e.getMessage());
         }
 
-
+        return movies;
     }
 }
+
+
 
 public class moviesNokia{
     private static List<Person> people = new ArrayList<>();
@@ -104,7 +91,17 @@ public class moviesNokia{
         try {
             fread = new FileReader(filePath.toFile());
             System.out.println("Console App has been connected to DataBase Successfully!");
-            DatabaseManager.listMovies(filePath);
+
+            List<Movie> movieList = ProcessingInputToObjects.listMovies(filePath);
+
+            for (Movie movie : movieList) {
+                System.out.println("Title: " + movie.title);
+                System.out.println("Director: " + movie.director);
+                System.out.println("Release Year: " + movie.releaseYear);
+                System.out.println("Length: " + movie.length);
+                System.out.println("Actors: " + String.join(", ", movie.actors));
+                System.out.println(); // Add a newline for better readability
+            }
         } catch (FileNotFoundException f){
             f.printStackTrace();
             System.err.println("Error opening the file: " + f.getMessage());
